@@ -411,7 +411,7 @@ namespace OutSystems.NssAdvanced_Excel {
 		/// <param name="ssCellName">Cell Name where to insert image</param>
 		/// <param name="ssImageWidth">The width of the image in pixels</param>
 		/// <param name="ssImageHeight">The height of the image in pixels</param>
-		/// <param name="ssMarginTop"> Offset in pixels	</param>
+		/// <param name="ssMarginTop"> Offset in pixels </param>
 		/// <param name="ssMarginLeft"> Offset in pixels</param>
 		void MssImage_Insert(object ssWorksheet, byte[] ssImageFile, string ssImageType, string ssImageName, int ssRowNumber, int ssColumnNumber, string ssCellName, int ssImageWidth, int ssImageHeight, int ssMarginTop, int ssMarginLeft);
 
@@ -768,6 +768,28 @@ namespace OutSystems.NssAdvanced_Excel {
 		/// <param name="ssWorksheetName">The name of the spreadsheet to create</param>
 		/// <param name="ssWorksheet">The newly added worksheet</param>
 		void MssWorkbook_AddName(object ssWorkbook, string ssWorksheetName, out object ssWorksheet);
+
+		/// <summary>
+		/// Set the active sheet
+		/// </summary>
+		/// <param name="ssWorkbook"></param>
+		/// <param name="ssWorksheetName"></param>
+		/// <param name="ssWorksheetIndex"></param>
+		void MssWorksheet_SetActive(object ssWorkbook, string ssWorksheetName, int ssWorksheetIndex);
+
+		/// <summary>
+		/// Action is used to add Drop down list.
+		/// </summary>
+		/// <param name="ssWorksheet">Current worksheet the values to be added.</param>
+		/// <param name="ssItemsList">Items values to be added to dropdown.</param>
+		/// <param name="ssItemsAddress">Instead of using the itemslist to make a list of values, you can refer to a location within your Excel sheet for the list of values. Example: &quot;=B10:B20&quot; or &quot;=Sheet2!$C$1:$C$1000&quot;</param>
+		/// <param name="ssCellRange">Sheet Cell range on which dropdown to be added, e.g. &quot;B:B&quot;</param>
+		/// <param name="ssTitleMessage">Dropdown title message to be shown.</param>
+		/// <param name="ssPromptMessage">Dropdown propmt message to be shown.</param>
+		/// <param name="ssShowError">Show error when using invalid input on dropdown</param>
+		/// <param name="ssCustomErrorMessage">Error to be shown when using invalid input on dropdown</param>
+		/// <param name="ssCustomErrorTitle">Title of error popup to be shown when using invalid input on dropdown</param>
+		void MssWorksheet_AddDropdown(object ssWorksheet, RLItemsRecordList ssItemsList, string ssItemsAddress, string ssCellRange, string ssTitleMessage, string ssPromptMessage, bool ssShowError, string ssCustomErrorMessage, string ssCustomErrorTitle);
 
 	} // IssAdvanced_Excel
 

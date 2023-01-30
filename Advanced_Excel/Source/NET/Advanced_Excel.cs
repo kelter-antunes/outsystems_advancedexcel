@@ -21,6 +21,79 @@ namespace OutSystems.NssAdvanced_Excel
     {
 
         /// <summary>
+        /// Action is used to add Drop down list.
+        /// </summary>
+        /// <param name="ssWorksheet">Current worksheet the values to be added.</param>
+        /// <param name="ssItemsList">Items values to be added to dropdown.</param>
+        /// <param name="ssItemsAddress">Instead of using the itemslist to make a list of values, you can refer to a location within your Excel sheet for the list of values. Example: &quot;=B10:B20&quot; or &quot;=Sheet2!$C$1:$C$1000&quot;</param>
+        /// <param name="ssCellRange">Sheet Cell range on which dropdown to be added, e.g. &quot;B:B&quot;</param>
+        /// <param name="ssTitleMessage">Dropdown title message to be shown.</param>
+        /// <param name="ssPromptMessage">Dropdown propmt message to be shown.</param>
+        /// <param name="ssShowError">Show error when using invalid input on dropdown</param>
+        /// <param name="ssCustomErrorMessage">Error to be shown when using invalid input on dropdown</param>
+        /// <param name="ssCustomErrorTitle">Title of error popup to be shown when using invalid input on dropdown</param>
+        public void MssWorksheet_AddDropdown(object ssWorksheet, RLItemsRecordList ssItemsList, string ssItemsAddress, string ssCellRange, string ssTitleMessage, string ssPromptMessage, bool ssShowError, string ssCustomErrorMessage, string ssCustomErrorTitle)
+        {
+            /* 
+             * Miguel 'Kelter' Antunes
+             * Code from Advanced_Excel_Dropdowns component
+             * https://www.outsystems.com/forge/component-overview/10562/advanced-excel-dropdowns
+             * 
+             */
+
+            var ws = (ExcelWorksheet)ssWorksheet;
+            var unitMeasure = ws.DataValidations.AddListValidation(ssCellRange);
+
+            if (String.IsNullOrEmpty(ssItemsAddress)) //Check if address string is empty, proceed to fill list with items.
+            {
+                for (int i = 0; i < ssItemsList.Count; i++)
+                {
+                    unitMeasure.Formula.Values.Add(ssItemsList[i].ssSTItems.ssItemText);
+                }
+            }
+            else
+            {
+                //TODO: Validation of Formula?
+                //TODO: Input sheet as Object instead of within string.
+                unitMeasure.Formula.ExcelFormula = ssItemsAddress;
+            }
+
+            unitMeasure.ShowInputMessage = true;
+            unitMeasure.PromptTitle = ssTitleMessage;
+            unitMeasure.Prompt = ssPromptMessage;
+            unitMeasure.Error = ssCustomErrorMessage;
+            unitMeasure.ErrorTitle = ssCustomErrorTitle;
+            unitMeasure.ShowErrorMessage = ssShowError;
+            unitMeasure.AllowBlank = true;
+
+
+
+
+        } // MssWorksheet_AddDropdown
+
+
+        /// <summary>
+        /// Set the active sheet
+        /// </summary>
+        /// <param name="ssWorkbook"></param>
+        /// <param name="ssWorksheetName"></param>
+        /// <param name="ssWorksheetIndex"></param>
+        public void MssWorksheet_SetActive(object ssWorkbook, string ssWorksheetName, int ssWorksheetIndex)
+        {
+            ExcelPackage ee = ssWorkbook as ExcelPackage;
+            if (ssWorksheetName != "")
+            {
+                ee.Workbook.Worksheets[ssWorksheetName].Select();
+            }
+            if (ssWorksheetIndex > 0)
+            {
+                ee.Workbook.Worksheets[ssWorksheetIndex].Select();
+
+            }
+        } // MssWorksheet_SetActive
+
+
+        /// <summary>
         /// Write a converted value to a cell, defined by its index.
         /// Input is a worksheet-object
         /// </summary>
